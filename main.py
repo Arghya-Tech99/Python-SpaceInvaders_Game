@@ -17,9 +17,17 @@ The .type attribute returns an integer value that corresponds to a specific type
 
 pygame.QUIT - User clicked on window close button
 '''
+# Changing the title and icon
+pygame.display.set_caption('Space Invaders')
+icon = pygame.image.load('spaceship.png')
+pygame.display.set_icon(icon)
+
 # Making the Game Loop
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    screen.fill((0, 0, 128)) # Fill the game window with background color in RGB format
+    pygame.display.update() # Updates the game window
