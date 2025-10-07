@@ -1,2 +1,14 @@
 .venv/
 .idea/
+Bg.png
+Bg3.png
+bullet.png
+Enemy.png
+Player.png
+Retro Gaming.ttf
+spaceship.png
+background.wav
+bulletShot.wav
+enemyKill.wav
+game_over.ttf
+GameOver.wav
