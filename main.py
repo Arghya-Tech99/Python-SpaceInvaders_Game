@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Initialize PyGame
 pygame.init()
@@ -33,11 +34,38 @@ playerY_change = 0
 def player(x, y): # Function which draws the icon at the initial position defined on the game window
     screen.blit(playerIcon, (x, y))
 
+# Enemy Initial details
+enemyIcon = pygame.image.load('Enemy.png')
+enemyX = random.randint(0,736)
+enemyY = random.randint(48,300)
+enemyX_change = 0.3
+enemyY_change = 30
+
+def enemy(x, y): # Function which draws the icon at the initial position defined on the game window
+    screen.blit(enemyIcon, (x, y))
+
+# Bullet details
+bulletIcon = pygame.image.load('bullet.png')
+bulletX = 0 # Always shoot from ship nose
+bulletY = 480 # Always shoot from same Y-level as the ship
+bulletX_change = 0
+bulletY_change = 1
+bullet_state = "ready"
+
+def fire_bullet(x, y):
+    global bullet_state # bullet_state is now global, which means its value can be altered from anywhere
+    bullet_state = "fire"
+    screen.blit(bulletIcon, (x+16, y+10))
+
+
+# Defining the background image
+background = pygame.image.load('Bg3.png')
 
 # Making the Game Loop
 running = True
 while running:
-    screen.fill((0, 0, 0))  # Fill the game window with background color in RGB format
+    # screen.fill((0, 0, 0))  # Fill the game window with background color in RGB format
+    screen.blit(background,(0,0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -51,6 +79,9 @@ while running:
             if event.key == pygame.K_RIGHT:
                 print('RIGHT')
                 playerX_change = 0.3
+            if event.key == pygame.K_SPACE:
+                print('Shots fired!')
+                fire_bullet(playerX, bulletY)
         if event.type == pygame.KEYUP:
             print('Keystroke released')
             playerX_change = 0
@@ -71,7 +102,25 @@ while running:
     elif playerX >= 736: # 800 - 64 (64 is size of Player PNG)
         playerX = 736
 
+    # Update the enemy position values
+    enemyX += enemyX_change
+
+    # Adding enemy movement
+    if enemyX <= 0:
+        enemyX_change = 0.3
+        enemyY += enemyY_change
+    elif enemyX >= 736:  # 800 - 64 (64 is size of Player PNG)
+        enemyX_change = -0.3
+        enemyY += enemyY_change
+
+    # Bullet movements
+    if bullet_state is "fire":
+        fire_bullet(playerX, bulletY)
+        bulletY = bulletY - bulletY_change
+
+
     # Changing the X and Y coordinates of the player, and drawing it repeatedly on the screen by calling the function
     player(playerX, playerY)
+    enemy(enemyX, enemyY)
 
     pygame.display.update() # Updates the game window
