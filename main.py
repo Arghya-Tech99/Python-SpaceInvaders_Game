@@ -54,7 +54,7 @@ while running:
         if event.type == pygame.KEYUP:
             print('Keystroke released')
             playerX_change = 0
-           
+
 
 
     '''
@@ -64,6 +64,12 @@ while running:
 
     # Update the values of playerX and playerY
     playerX += playerX_change
+
+    # Adding boundaries so that player doesn't go out of window
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 736: # 800 - 64 (64 is size of Player PNG)
+        playerX = 736
 
     # Changing the X and Y coordinates of the player, and drawing it repeatedly on the screen by calling the function
     player(playerX, playerY)
