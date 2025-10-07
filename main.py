@@ -27,18 +27,21 @@ playerIcon = pygame.image.load('Player.png')
 playerX = 380
 playerY = 480
 
-def player(): # Function which draws the icon at the initial position defined on the game window
-    screen.blit(playerIcon, (playerX, playerY))
+def player(x, y): # Function which draws the icon at the initial position defined on the game window
+    screen.blit(playerIcon, (x, y))
 
 
 # Making the Game Loop
 running = True
 while running:
     screen.fill((0, 0, 0))  # Fill the game window with background color in RGB format
-
+    playerX += 0.1
+    playerY -= 0.1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    player()
+    # Changing the X and Y coordinates of the player, and drawing it repeatedly on the screen by calling the function
+    player(playerX, playerY)
+
     pygame.display.update() # Updates the game window
