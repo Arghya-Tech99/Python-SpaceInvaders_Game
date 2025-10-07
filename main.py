@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Initialize PyGame
 pygame.init()
@@ -33,6 +34,15 @@ playerY_change = 0
 def player(x, y): # Function which draws the icon at the initial position defined on the game window
     screen.blit(playerIcon, (x, y))
 
+# Enemy Initial details
+enemyIcon = pygame.image.load('Enemy.png')
+enemyX = random.randint(0,736)
+enemyY = random.randint(48,300)
+enemyX_change = 0.3
+enemyY_change = 30
+
+def enemy(x, y): # Function which draws the icon at the initial position defined on the game window
+    screen.blit(enemyIcon, (x, y))
 
 # Making the Game Loop
 running = True
@@ -54,7 +64,7 @@ while running:
         if event.type == pygame.KEYUP:
             print('Keystroke released')
             playerX_change = 0
-           
+
 
 
     '''
@@ -65,7 +75,25 @@ while running:
     # Update the values of playerX and playerY
     playerX += playerX_change
 
+    # Adding boundaries so that player doesn't go out of window
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 736: # 800 - 64 (64 is size of Player PNG)
+        playerX = 736
+
+    # Update the enemy position values
+    enemyX += enemyX_change
+
+    # Adding enemy movement
+    if enemyX <= 0:
+        enemyX_change = 0.3
+        enemyY += enemyY_change
+    elif enemyX >= 736:  # 800 - 64 (64 is size of Player PNG)
+        enemyX_change = -0.3
+        enemyY += enemyY_change
+
     # Changing the X and Y coordinates of the player, and drawing it repeatedly on the screen by calling the function
     player(playerX, playerY)
+    enemy(enemyX, enemyY)
 
     pygame.display.update() # Updates the game window
