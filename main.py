@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 # Create the screen using pygame.display.set_mode() function
-screen = pygame.display.set_mode((1000, 800)) # (height pixels, width pixels) - function arguments
+screen = pygame.display.set_mode((800, 600)) # (width pixels, height pixels) - function arguments
 
 '''
 Event in PyGame - any action or message that the operating system or the user generates, which Pygame can detect and respond to.
@@ -22,12 +22,23 @@ pygame.display.set_caption('Space Invaders')
 icon = pygame.image.load('spaceship.png')
 pygame.display.set_icon(icon)
 
+# Player initial details
+playerIcon = pygame.image.load('Player.png')
+playerX = 380
+playerY = 480
+
+def player(): # Function which draws the icon at the initial position defined on the game window
+    screen.blit(playerIcon, (playerX, playerY))
+
+
 # Making the Game Loop
 running = True
 while running:
+    screen.fill((0, 0, 0))  # Fill the game window with background color in RGB format
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill((0, 0, 128)) # Fill the game window with background color in RGB format
+    player()
     pygame.display.update() # Updates the game window
