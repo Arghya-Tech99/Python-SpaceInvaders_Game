@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Initialize PyGame
 pygame.init()
@@ -33,6 +34,13 @@ playerY_change = 0
 def player(x, y): # Function which draws the icon at the initial position defined on the game window
     screen.blit(playerIcon, (x, y))
 
+# Enemy Initial details
+enemyIcon = pygame.image.load('Enemy.png')
+enemyX = random.randint(0,736)
+enemyY = random.randint(48,300)
+
+def enemy(x, y): # Function which draws the icon at the initial position defined on the game window
+    screen.blit(enemyIcon, (x, y))
 
 # Making the Game Loop
 running = True
@@ -73,5 +81,6 @@ while running:
 
     # Changing the X and Y coordinates of the player, and drawing it repeatedly on the screen by calling the function
     player(playerX, playerY)
+    enemy(enemyX, enemyY)
 
     pygame.display.update() # Updates the game window
