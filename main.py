@@ -38,6 +38,8 @@ def player(x, y): # Function which draws the icon at the initial position define
 enemyIcon = pygame.image.load('Enemy.png')
 enemyX = random.randint(0,736)
 enemyY = random.randint(48,300)
+enemyX_change = 0.3
+enemyY_change = 30
 
 def enemy(x, y): # Function which draws the icon at the initial position defined on the game window
     screen.blit(enemyIcon, (x, y))
@@ -78,6 +80,17 @@ while running:
         playerX = 0
     elif playerX >= 736: # 800 - 64 (64 is size of Player PNG)
         playerX = 736
+
+    # Update the enemy position values
+    enemyX += enemyX_change
+
+    # Adding enemy movement
+    if enemyX <= 0:
+        enemyX_change = 0.3
+        enemyY += enemyY_change
+    elif enemyX >= 736:  # 800 - 64 (64 is size of Player PNG)
+        enemyX_change = -0.3
+        enemyY += enemyY_change
 
     # Changing the X and Y coordinates of the player, and drawing it repeatedly on the screen by calling the function
     player(playerX, playerY)
