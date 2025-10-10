@@ -51,7 +51,7 @@ background = pygame.image.load('Background.png')
 running = True
 while running:
     # screen.fill((0, 0, 0))  # Fill the game window with background color in RGB format
-    screen.blit(background,(0,0))
+    screen.blit(background,(0,0)) # Fills the game window with the "background" image object initialized earlier
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
