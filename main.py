@@ -44,10 +44,14 @@ enemyY_change = 30
 def enemy(x, y): # Function which draws the icon at the initial position defined on the game window
     screen.blit(enemyIcon, (x, y))
 
+# Defining the background image
+background = pygame.image.load('Background.png')
+
 # Making the Game Loop
 running = True
 while running:
-    screen.fill((0, 0, 0))  # Fill the game window with background color in RGB format
+    # screen.fill((0, 0, 0))  # Fill the game window with background color in RGB format
+    screen.blit(background,(0,0)) # Fills the game window with the "background" image object initialized earlier
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
