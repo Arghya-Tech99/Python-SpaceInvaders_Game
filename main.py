@@ -81,7 +81,9 @@ while running:
                 playerX_change = 0.3
             if event.key == pygame.K_SPACE:
                 print('Shots fired!')
-                fire_bullet(playerX, bulletY)
+                if bullet_state is "ready":
+                    bulletX = playerX # Get the current X coordinate of the spaceship
+                    fire_bullet(bulletX, bulletY)
         if event.type == pygame.KEYUP:
             print('Keystroke released')
             playerX_change = 0
@@ -115,9 +117,13 @@ while running:
 
     # Bullet movements
     if bullet_state is "fire":
-        fire_bullet(playerX, bulletY)
+        fire_bullet(bulletX, bulletY)
         bulletY = bulletY - bulletY_change
 
+    # Shooting multiple bullets
+    if bulletY <= 0:
+        bulletY = 480
+        bullet_state = "ready"
 
     # Changing the X and Y coordinates of the player, and drawing it repeatedly on the screen by calling the function
     player(playerX, playerY)
