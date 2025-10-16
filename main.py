@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 # Initialize PyGame
 pygame.init()
@@ -30,6 +31,7 @@ playerX = 380
 playerY = 480
 playerX_change = 0
 playerY_change = 0
+score = 0
 
 def player(x, y): # Function which draws the icon at the initial position defined on the game window
     screen.blit(playerIcon, (x, y))
@@ -57,6 +59,14 @@ def fire_bullet(x, y):
     bullet_state = "fire"
     screen.blit(bulletIcon, (x+16, y+10))
 
+# Creating a function for collision detection
+def inCollision(enemyX, enemyY, bulletX, bulletY):
+    sum_sq_diffs = (enemyX-bulletX)**2 + (enemyY-bulletY)**2
+    distance = math.sqrt(sum_sq_diffs)
+    if distance < 30:
+        return True
+    else:
+        return False
 
 # Defining the background image
 background = pygame.image.load('Bg3.png')
@@ -125,7 +135,18 @@ while running:
         bulletY = 480
         bullet_state = "ready"
 
-    # Changing the X and Y coordinates of the player, and drawing it repeatedly on the screen by calling the function
+    # Checking for collision and updating
+    collision = inCollision(enemyX, enemyY, bulletX, bulletY)
+    if collision: # If the collision happens, i.e. the collision value is 'True'
+        bullet_state = "ready"
+        bulletY = 480
+        score += 1
+        print(score)
+        # After hitting, the enemy has to respawn
+        enemyX = random.randint(0, 736)
+        enemyY = random.randint(48, 300)
+
+    # Changing the X and Y coordinates of the player and enemy, and drawing it repeatedly on the screen by calling the function
     player(playerX, playerY)
     enemy(enemyX, enemyY)
 
