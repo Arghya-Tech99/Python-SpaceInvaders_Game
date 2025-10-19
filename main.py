@@ -37,14 +37,24 @@ def player(x, y): # Function which draws the icon at the initial position define
     screen.blit(playerIcon, (x, y))
 
 # Enemy Initial details
-enemyIcon = pygame.image.load('Enemy.png')
-enemyX = random.randint(0,736)
-enemyY = random.randint(48,300)
-enemyX_change = 0.3
-enemyY_change = 30
+# Multiple enemies are created, whose individual details are stored as list
+enemyIcon = []
+enemyX = []
+enemyY = []
+enemyX_change = []
+enemyY_change = []
+num_of_enemies = 6
+
+for i in range(num_of_enemies):
+    enemyIcon.append(pygame.image.load('Enemy.png'))
+    enemyX.append(random.randint(0, 736))
+    enemyY.append(random.randint(48, 300))
+    enemyX_change.append(0.3)
+    enemyY_change.append(30)
+
 
 def enemy(x, y): # Function which draws the icon at the initial position defined on the game window
-    screen.blit(enemyIcon, (x, y))
+    screen.blit(enemyIcon[i], (x, y))
 
 # Bullet details
 bulletIcon = pygame.image.load('bullet.png')
@@ -114,16 +124,28 @@ while running:
     elif playerX >= 736: # 800 - 64 (64 is size of Player PNG)
         playerX = 736
 
-    # Update the enemy position values
-    enemyX += enemyX_change
+    # For each of the enemies, add functionality of movement updation and collision detection
+    for i in range(num_of_enemies):
+        # Update the enemy position values
+        enemyX[i] += enemyX_change[i]
+        # Adding enemy movement
+        if enemyX[i] <= 0:
+            enemyX_change[i] = 0.3
+            enemyY[i] += enemyY_change[i]
+        elif enemyX[i]>= 736:  # 800 - 64 (64 is size of Player PNG)
+            enemyX_change[i] = -0.3
+            enemyY[i] += enemyY_change[i]
 
-    # Adding enemy movement
-    if enemyX <= 0:
-        enemyX_change = 0.3
-        enemyY += enemyY_change
-    elif enemyX >= 736:  # 800 - 64 (64 is size of Player PNG)
-        enemyX_change = -0.3
-        enemyY += enemyY_change
+        # Checking for collision and updating
+        collision = inCollision(enemyX[i], enemyY[i], bulletX, bulletY)
+        if collision:  # If the collision happens, i.e. the collision value is 'True'
+            bullet_state = "ready"
+            bulletY = 480
+            score += 1
+            print(score)
+            # After hitting, the enemy has to respawn
+            enemyX[i] = random.randint(0, 736)
+            enemyY[i] = random.randint(48, 300)
 
     # Bullet movements
     if bullet_state is "fire":
@@ -135,19 +157,9 @@ while running:
         bulletY = 480
         bullet_state = "ready"
 
-    # Checking for collision and updating
-    collision = inCollision(enemyX, enemyY, bulletX, bulletY)
-    if collision: # If the collision happens, i.e. the collision value is 'True'
-        bullet_state = "ready"
-        bulletY = 480
-        score += 1
-        print(score)
-        # After hitting, the enemy has to respawn
-        enemyX = random.randint(0, 736)
-        enemyY = random.randint(48, 300)
-
     # Changing the X and Y coordinates of the player and enemy, and drawing it repeatedly on the screen by calling the function
     player(playerX, playerY)
-    enemy(enemyX, enemyY)
+    for i in range(num_of_enemies):
+        enemy(enemyX[i], enemyY[i])
 
     pygame.display.update() # Updates the game window
