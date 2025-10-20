@@ -69,6 +69,17 @@ def fire_bullet(x, y):
     bullet_state = "fire"
     screen.blit(bulletIcon, (x+16, y+10))
 
+# Creating a Score record system
+score_value = 0
+font = pygame.font.Font('Retro Gaming.ttf', 36)
+
+textX = 15
+textY = 15
+def showScore(x, y):
+    score = font.render("Score : " + str(score_value),  True, (255, 255, 255))
+    screen.blit(score, (x, y))
+
+
 # Creating a function for collision detection
 def inCollision(enemyX, enemyY, bulletX, bulletY):
     sum_sq_diffs = (enemyX-bulletX)**2 + (enemyY-bulletY)**2
@@ -92,20 +103,20 @@ while running:
 
         # Checks whether a keystroke is made or not, and if made then is it right or left
         if event.type == pygame.KEYDOWN:
-            print('Keystroke detected')
+            #print('Keystroke detected')
             if event.key == pygame.K_LEFT:
-                print('LEFT')
+                #print('LEFT')
                 playerX_change = -0.3
             if event.key == pygame.K_RIGHT:
-                print('RIGHT')
+                #print('RIGHT')
                 playerX_change = 0.3
             if event.key == pygame.K_SPACE:
-                print('Shots fired!')
+                #print('Shots fired!')
                 if bullet_state is "ready":
                     bulletX = playerX # Get the current X coordinate of the spaceship
                     fire_bullet(bulletX, bulletY)
         if event.type == pygame.KEYUP:
-            print('Keystroke released')
+            #print('Keystroke released')
             playerX_change = 0
 
 
@@ -141,8 +152,7 @@ while running:
         if collision:  # If the collision happens, i.e. the collision value is 'True'
             bullet_state = "ready"
             bulletY = 480
-            score += 1
-            print(score)
+            score_value += 1
             # After hitting, the enemy has to respawn
             enemyX[i] = random.randint(0, 736)
             enemyY[i] = random.randint(48, 300)
@@ -161,5 +171,8 @@ while running:
     player(playerX, playerY)
     for i in range(num_of_enemies):
         enemy(enemyX[i], enemyY[i])
+
+    # Display score on screen
+    showScore(textX, textY)
 
     pygame.display.update() # Updates the game window
