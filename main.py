@@ -79,13 +79,20 @@ def fire_bullet(x, y):
 # Creating a Score record system
 score_value = 0
 font = pygame.font.Font('Retro Gaming.ttf', 36)
+# Create a new font object named 'font' from a font file or from a system font, then use it to render text onto a Pygame Surface.
 
 textX = 15
 textY = 15
-def showScore(x, y):
+def showScore(x, y):    # Displays the score of the player on game screen
     score = font.render("Score : " + str(score_value),  True, (255, 255, 255))
+    # font.render() Renders text from the created font object onto the surface
     screen.blit(score, (x, y))
 
+# Creating the Game over screen
+over_font = pygame.font.Font('game_over.ttf', 90)
+def GameOver():
+    over_text = over_font.render("GAME OVER",  True, (255, 255, 255))
+    screen.blit(over_text, (300, 250))
 
 # Creating a function for collision detection
 def inCollision(enemyX, enemyY, bulletX, bulletY):
@@ -146,6 +153,15 @@ while running:
 
     # For each of the enemies, add functionality of movement updation and collision detection
     for i in range(num_of_enemies):
+        # Game over screen display
+        if enemyY[i] > 440:
+            over_sound = mixer.Sound('GameOver.wav')
+            mixer.Sound.play(over_sound)
+            for j in range(num_of_enemies):
+                enemyY[j] = 1500
+            GameOver()
+            break
+
         # Update the enemy position values
         enemyX[i] += enemyX_change[i]
         # Adding enemy movement
