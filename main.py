@@ -38,6 +38,7 @@ playerX = 380
 playerY = 480
 playerX_change = 0
 playerY_change = 0
+score = 0
 
 def player(x, y): # Function which draws the icon at the initial position defined on the game window
     screen.blit(playerIcon, (x, y))
